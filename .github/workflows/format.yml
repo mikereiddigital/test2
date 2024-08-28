@@ -15,5 +15,4 @@ jobs:
       - uses: mikereiddigital/test/code-formatter@9f3ae8e0a071f7130001b193ebb015f920be48d1
         with:
             ignore-files: "README.md"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            secret-token: ${{ secrets.GITHUB_TOKEN }}
