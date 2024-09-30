@@ -1,5 +1,0 @@
-locals {
-
-  application_name     = "application"
-
-}

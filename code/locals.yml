@@ -1,5 +1,5 @@
 locals {
 
-  application_name = "application"
+  application_name =   "application"
 
 }
