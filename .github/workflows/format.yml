@@ -13,10 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
  
-      - name: Test ghcommit
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          repository: ${{ github.repository }}
+
+      - name: Generate a change in a file and create a new commit from it
         run: |
-          which ghcommit
-          ghcommit
+          echo "this is a new line"
+  
 
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - uses: mikereiddigital/test/code-formatter@main #using default for testing here
