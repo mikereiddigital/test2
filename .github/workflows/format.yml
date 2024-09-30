@@ -1,5 +1,6 @@
 name: "Format Code: ensure code formatting guidelines are met"
 on:
+  workflow_dispatch: null
   pull_request:
     types: [opened, edited, reopened, synchronize]
 
@@ -10,8 +11,15 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      # Step 1: Checkout a specific branch (e.g., `feature-branch`)
+      - name: Checkout specific branch
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: testC
+ 
       - uses: mikereiddigital/test/code-formatter@main #using default for testing here
         with:
             ignore-files: "README.md"
