@@ -1,0 +1,32 @@
+name: concurrency-test
+
+on:
+  push:
+    branches:
+      - testD
+  workflow_dispatch:
+
+jobs:
+  example_job:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: workflow-example-${{ github.ref }}
+      cancel-in-progress: false
+
+    steps:
+
+      - name: Generate job activity
+        run: |
+          echo "Starting the job"
+          # Initialize the counter
+          counter=1
+
+          # Start the while loop
+          while [ $counter -le 10 ]
+          do
+            echo "Counter: $counter"
+            ((counter++))  # Increment the counter by 1
+            sleep 20
+          done
+
+          echo "job completed"
