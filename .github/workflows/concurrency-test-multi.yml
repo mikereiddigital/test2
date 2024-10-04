@@ -8,9 +8,6 @@ jobs:
   example_job_1:
     runs-on: ubuntu-latest
 
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-
     concurrency:
       group: workflow-example-${{ github.ref }}
       cancel-in-progress: false
@@ -35,11 +32,7 @@ jobs:
 
   example_job_2:
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        workspaces: ${{ fromJSON(needs.setup-prerequisites.outputs.matrix) }}
+    needs: example_job_1
 
     concurrency:
       group: workflow-example-${{ github.ref }}
@@ -65,11 +58,7 @@ jobs:
 
   example_job_3:
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        workspaces: ${{ fromJSON(needs.setup-prerequisites.outputs.matrix) }}
+    needs: example_job_2
 
     concurrency:
       group: workflow-example-${{ github.ref }}
