@@ -40,6 +40,7 @@ jobs:
       - name: Generate job 2 activity
         run: |
           echo "Starting job 2"
+          echo $(date +"%Y-%m-%d %H:%M:%S")
           # Initialize the counter
           counter=1
 
@@ -62,6 +63,7 @@ jobs:
       - name: Generate job 3 activity
         run: |
           echo "Starting job 3"
+          echo $(date +"%Y-%m-%d %H:%M:%S")
           # Initialize the counter
           counter=1
 
