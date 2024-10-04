@@ -1,4 +1,4 @@
-name: concurrency-test
+name: concurrency-test-multi
 
 on:
   workflow_dispatch:
