@@ -1,9 +1,6 @@
 name: concurrency-test
 
 on:
-  push:
-    branches:
-      - testD
   workflow_dispatch:
 
 jobs:

@@ -1,0 +1,94 @@
+name: concurrency-test
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  example_job_1:
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    concurrency:
+      group: workflow-example-${{ github.ref }}
+      cancel-in-progress: false
+
+    steps:
+
+      - name: Generate job 1 activity
+        run: |
+          echo "Starting job 1"
+          # Initialize the counter
+          counter=1
+
+          # Start the while loop
+          while [ $counter -le 10 ]
+          do
+            echo "Counter: $counter"
+            ((counter++))  # Increment the counter by 1
+            sleep 20
+          done
+
+          echo "job 1 completed"
+
+  example_job_2:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        workspaces: ${{ fromJSON(needs.setup-prerequisites.outputs.matrix) }}
+
+    concurrency:
+      group: workflow-example-${{ github.ref }}
+      cancel-in-progress: false
+
+    steps:
+
+      - name: Generate job 2 activity
+        run: |
+          echo "Starting job 2"
+          # Initialize the counter
+          counter=1
+
+          # Start the while loop
+          while [ $counter -le 10 ]
+          do
+            echo "Counter: $counter"
+            ((counter++))  # Increment the counter by 1
+            sleep 20
+          done
+
+          echo "job 2 completed"
+
+  example_job_3:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        workspaces: ${{ fromJSON(needs.setup-prerequisites.outputs.matrix) }}
+
+    concurrency:
+      group: workflow-example-${{ github.ref }}
+      cancel-in-progress: false
+
+    steps:
+
+      - name: Generate job 3 activity
+        run: |
+          echo "Starting job 3"
+          # Initialize the counter
+          counter=1
+
+          # Start the while loop
+          while [ $counter -le 10 ]
+          do
+            echo "Counter: $counter"
+            ((counter++))  # Increment the counter by 1
+            sleep 20
+          done
+
+          echo "job 3 completed"
