@@ -26,7 +26,7 @@ jobs:
           do
             echo "Counter: $counter"
             ((counter++))  # Increment the counter by 1
-            sleep 3
+            sleep 1
           done
 
           echo "job 1 completed"
@@ -49,7 +49,7 @@ jobs:
           do
             echo "Counter: $counter"
             ((counter++))  # Increment the counter by 1
-            sleep 3
+            sleep 1
           done
 
           echo "job 2 completed"
@@ -72,7 +72,7 @@ jobs:
           do
             echo "Counter: $counter"
             ((counter++))  # Increment the counter by 1
-            sleep 3
+            sleep 1
           done
 
           echo "job 3 completed"
