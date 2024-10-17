@@ -29,5 +29,5 @@ jobs:
         run: |
           gh issue create \
                 --title "Another test issue" \
-                --project "Test" \
+                --project "mikereiddigital/2" \
                 --body "Test Body"
