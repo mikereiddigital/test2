@@ -27,7 +27,6 @@ jobs:
       - name: Create Issue
         run: |
           gh issue create \
-                --title "Another test issue
+                --title "Another test issue \
                 --project "Test" \
-                --body "Test Body" \
-            )
+                --body "Test Body"
