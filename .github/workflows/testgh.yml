@@ -1,4 +1,5 @@
 name: Test GH
+
 on:
   workflow_dispatch:
 
@@ -11,7 +12,7 @@ defaults:
 
 jobs:
 
-  confirm-contacts-for-environments:
+  test:
     runs-on: ubuntu-latest
 
     permissions:
@@ -27,6 +28,6 @@ jobs:
       - name: Create Issue
         run: |
           gh issue create \
-                --title "Another test issue \
+                --title "Another test issue" \
                 --project "Test" \
                 --body "Test Body"
