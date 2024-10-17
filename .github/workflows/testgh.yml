@@ -1,0 +1,33 @@
+name: Test GH
+on:
+  workflow_dispatch:
+
+env:
+    GH_TOKEN: ${{ secrets.TERRAFORM_GITHUB_TOKEN }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  confirm-contacts-for-environments:
+    runs-on: ubuntu-latest
+
+    permissions:
+      issues: write     
+      contents: read
+      repository-projects: read
+ 
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Create Issue
+        run: |
+          gh issue create \
+                --title "Another test issue
+                --project "Test" \
+                --body "Test Body" \
+            )
