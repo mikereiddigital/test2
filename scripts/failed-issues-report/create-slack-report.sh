@@ -18,7 +18,7 @@ if jq empty recent_failures.json > /dev/null 2>&1; then
             "type": "section",
             "text": {
             "type": "mrkdwn",
-            "text": "The following workflows have failed in the past 24 hours without subsequent success:"
+            "text": "The following workflows have failed in the past $REPORTING_PERIOD day(s) without subsequent success:"
             }
         },
         {
@@ -44,3 +44,8 @@ if jq empty recent_failures.json > /dev/null 2>&1; then
         ))
     }'
     )
+else
+    echo "No report json file presented"
+fi
+
+echo "$slack_message"
