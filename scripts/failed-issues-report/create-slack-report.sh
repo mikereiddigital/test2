@@ -50,6 +50,13 @@ else
     echo "No report json file presented"
 fi
 
+
 # Prints the slack report to the log and outputs to a json file for use in the next step.
 echo "$slack_message"
 echo "$slack_message" > slack_message.json
+
+if jq empty recent_failures.json > /dev/null 2>&1; then
+  echo "recent_failures.json is valid JSON."
+else
+  echo "recent_failures.json is invalid JSON."
+fi
