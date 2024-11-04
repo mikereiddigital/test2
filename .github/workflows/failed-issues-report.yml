@@ -14,9 +14,9 @@ permissions:
 env:
     GITHUB_REPO: ${{ github.repository }}
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOKS }}
+    # SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOKS }}
     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-    REPORTING_PERIOD: "168" # This variable sets the number of hours against which the report will be compiled.
+    REPORTING_PERIOD: "2000" # This variable sets the number of hours against which the report will be compiled.
 
 defaults:
   run:
