@@ -11,7 +11,7 @@ echo "Getting all workflows that completed since $formatted_date"
 
 # The updated_at field provides the finished date so we check against that.
 # The created field is for all actions that have completed including those that have failed.
-GITHUB_API_URL="https://api.github.com/repos/$GITHUB_REPO/actions/runs?updated_at=>=$PERIOD&status=completed"
+GITHUB_API_URL="https://api.github.com/repos/$GITHUB_REPO/actions/runs?updated_at=>=$period&status=completed"
 
 response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$GITHUB_API_URL")
 
