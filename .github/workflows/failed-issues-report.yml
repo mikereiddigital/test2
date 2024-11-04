@@ -16,7 +16,7 @@ env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     # SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOKS }}
     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-    REPORTING_PERIOD: "2000" # This variable sets the number of hours against which the report will be compiled.
+    REPORTING_PERIOD: "90" # This variable sets the number of days against which the report will be compiled.
 
 defaults:
   run:
@@ -30,7 +30,7 @@ jobs:
     steps:
 
         # Creates a json file listing the latest action for a workflow that:
-        #  - failed in the last 24 hours, and
+        #  - failed in the previous number of days as set by $REPORTING_PERIOD, and
         #  - does not have a successful run.
 
         - name: Checkout Repository

@@ -5,7 +5,7 @@
 
 # The GitHub API expects dates in ISO 8601 format for filtering parameters like created or updated.
 # We want the date & time as at 24 hours ago.
-PERIOD=$(date -u --date="$REPORTING_PERIOD hours ago" +"%Y-%m-%dT%H:%M:%SZ")
+PERIOD=$(date -u --date="$REPORTING_PERIOD days ago" +"%Y-%m-%dT%H:%M:%SZ")
 echo "Getting all workflows that completed since $PERIOD"
 
 # The updated_at field provides the finished date so we check against that.
