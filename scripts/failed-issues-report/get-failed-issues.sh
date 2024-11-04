@@ -4,7 +4,7 @@
 # - Ignores failed actions that have had a subsequent successful action,
 
 # The GitHub API expects dates in ISO 8601 format for filtering parameters like created or updated.
-# We want the date & time as at 24 hours ago.
+# We want the date & time as defined in the $REPORITNG_PERIOD variable.
 PERIOD=$(date -u --date="$REPORTING_PERIOD days ago" +"%Y-%m-%dT%H:%M:%SZ")
 echo "Getting all workflows that completed since $PERIOD"
 
@@ -36,13 +36,14 @@ recent_failures=$(echo "$response" | jq -r '
   | map(select(.name and .url and .status and .created_at))
 ')
 
+# 
+formatted_date=$(date -d "$PERIOD" +"%d-%m-%Y %H:%M:%S")
 
 # This checks the contents of $recent_failures and if not empty it saves the variable to a file for use in the next step.
-formatted_date=$(date -d "$original_date" +"%d-%m-%Y %H:%M:%S")
 if [[ -n "$recent_failures" ]]; then
   echo "Most recent failed GitHub Actions without subsequent success that finished since $formatted_date :"
-  echo "$recent_failures" | jq -r '. | "\(.name): \(.created_at) - \(.url)"'
   echo "$recent_failures" > recent_failures.json
+  cat recent_failures.json
 else
   echo "No workflow failures without subsequent successful completion that finished since $formatted_date ."
 fi
