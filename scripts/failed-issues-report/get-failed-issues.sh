@@ -6,7 +6,7 @@
 # The GitHub API expects dates in ISO 8601 format for filtering parameters like created or updated.
 # We want the date & time as defined in the $REPORITNG_PERIOD variable. We use $formatted_date for readibility.
 period=$(date -u --date="$REPORTING_PERIOD days ago" +"%Y-%m-%dT%H:%M:%SZ")
-formatted_date=$(date -d "$PERIOD" +"%d-%m-%Y %H:%M:%S")
+formatted_date=$(date -d "$period" +"%d-%m-%Y %H:%M:%S")
 echo "Getting all workflows that completed since $formatted_date"
 
 # The updated_at field provides the finished date so we check against that.
@@ -47,4 +47,4 @@ else
 fi
 
 # Output the formatted_date var to GITHUB_ENV for use in the subsequent scripts
-echo "formatted_date="$formatted_date"" >> $GITHUB_ENV 
+echo "formatted_date=$formatted_date" >> $GITHUB_ENV 
