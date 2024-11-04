@@ -6,42 +6,44 @@ if jq empty recent_failures.json > /dev/null 2>&1; then
     # This generates a Slack message in JSON format using jq
     slack_message=$(jq -n --arg reporting_period "$REPORTING_PERIOD" --slurpfile failures recent_failures.json '
     {
-        "blocks": [
-        {
-            "type": "section",
-            "text": {
-            "type": "mrkdwn",
-            "text": ":no_entry: *Recent Failed GitHub Actions*"
-            }
-        },
-        {
-            "type": "section",
-            "text": {
-            "type": "mrkdwn",
-            "text": "The following workflows have failed in the past \($reporting_period) day(s) without subsequent success:"
-            }
-        },
-        {
-            "type": "divider"
-        }
-        ] + ($failures[0] | map(
-        {
-            "type": "section",
-            "fields": [
+        "blocks": (
+        [
             {
+            "type": "section",
+            "text": {
                 "type": "mrkdwn",
-                "text": "*Workflow:*\n<\(.url)|\(.name)>"
+                "text": ":no_entry: *Recent Failed GitHub Actions*"
+            }
             },
             {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "The following workflows have failed in the past \($reporting_period) days without subsequent success:"
+            }
+            },
+            {
+            "type": "divider"
+            }
+        ] + ($failures[0] | map(
+            {
+            "type": "section",
+            "fields": [
+                {
+                "type": "mrkdwn",
+                "text": "*Workflow:*\n<\(.url)|\(.name)>"
+                },
+                {
                 "type": "mrkdwn",
                 "text": "*Created At:*\n\(.created_at)"
-            }
+                }
             ]
-        },
-        {
+            },
+            {
             "type": "divider"
-        }
+            }
         ))
+        )
     }'
     )
 else
