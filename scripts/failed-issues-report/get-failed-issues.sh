@@ -41,7 +41,7 @@ recent_failures=$(echo "$response" | jq -r '
 formatted_date=$(date -d "$original_date" +"%d-%m-%Y %H:%M:%S")
 if [[ -n "$recent_failures" ]]; then
   echo "Most recent failed GitHub Actions without subsequent success that finished since $formatted_date :"
-  # echo "$recent_failures" | jq -r '. | "\(.name): \(.created_at) - \(.url)"'
+  echo "$recent_failures" | jq -r '. | "\(.name): \(.created_at) - \(.url)"'
   echo "$recent_failures" > recent_failures.json
 else
   echo "No workflow failures without subsequent successful completion that finished since $formatted_date ."
