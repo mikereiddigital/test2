@@ -17,7 +17,7 @@ env:
     # SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOKS }}
     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-    REPORTING_PERIOD: "90" # This variable sets the number of days against which the report will be compiled.
+    REPORTING_PERIOD: "1" # This variable sets the number of days against which the report will be compiled.
 
 defaults:
   run:
