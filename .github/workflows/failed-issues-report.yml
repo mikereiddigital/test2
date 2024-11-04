@@ -51,9 +51,10 @@ jobs:
 
         # Sends the json file to the MP Team via slack
 
-        - name: Send Report via Slack
-          run: |
-            ./scripts/failed-issues-report/send-report-via-slack.sh
+#        - name: Send Report via Slack
+#          run: |
+#            chmod +x scripts/failed-issues-report/create-slack-report.sh
+#            ./scripts/failed-issues-report/send-report-via-slack.sh
 
 
 
