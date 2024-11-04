@@ -1,0 +1,59 @@
+name: 'Generates Report of all Failed Workflows'
+
+on:
+    workflow_dispatch: 
+    push:
+        branches:
+            - issue/7902
+
+permissions:
+    actions: read
+    statuses: read  
+    contents: read
+
+env:
+    GITHUB_REPO: ${{ github.repository }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOKS }}
+    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    REPORTING_PERIOD: "168" # This variable sets the number of hours against which the report will be compiled.
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  generate-report:
+    runs-on: ubuntu-latest
+
+    steps:
+
+        # Creates a json file listing the latest action for a workflow that:
+        #  - failed in the last 24 hours, and
+        #  - does not have a successful run.
+
+        - name: Checkout Repository
+          uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+        - name: Get Failed Issues     
+          run: |
+            cd $GITHUB_WORKSPACE
+            pwd
+            chmod +x scripts/failed-issues-report/get-failed-issues.sh
+            ./scripts/failed-issues-report/get-failed-issues.sh
+
+        # Creates a JSON file with the markdown-formatted report for slack
+        - name: Create the Slack Report
+          run: |
+            chmod +x scripts/failed-issues-report/create-slack-report.sh
+            ./scripts/failed-issues-report/create-slack-report.sh
+
+        # Sends the json file to the MP Team via slack
+
+        - name: Send Report via Slack
+          run: |
+            ./scripts/failed-issues-report/send-report-via-slack.sh
+
+
+
