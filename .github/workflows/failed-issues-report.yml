@@ -55,7 +55,7 @@ jobs:
 
         - name: Send Report via Slack
           run: |
-            chmod +x scripts/failed-issues-report/create-slack-report.sh
+            chmod +x scripts/failed-issues-report/send-report-via-slack.sh
             ./scripts/failed-issues-report/send-report-via-slack.sh $SLACK_WEBHOOK_URL slack_message.json
 
 
