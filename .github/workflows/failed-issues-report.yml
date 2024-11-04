@@ -53,17 +53,10 @@ jobs:
 
         # Sends the json file to the MP Team via slack
 
-        - name: Send Report via Slack using actions
-          uses: slackapi/slack-github-action@37ebaef184d7626c5f204ab8d3baff4262dd30f0 # v1.27.0
-          with:
-            payload: ${{ steps.create_slack_report.outputs.slack_message }}
-
-
-
-#        - name: Send Report via Slack
-#          run: |
-#            chmod +x scripts/failed-issues-report/create-slack-report.sh
-#            ./scripts/failed-issues-report/send-report-via-slack.sh
+        - name: Send Report via Slack
+          run: |
+            chmod +x scripts/failed-issues-report/create-slack-report.sh
+            ./scripts/failed-issues-report/send-report-via-slack.sh $SLACK_WEBHOOK_URL slack_message.json
 
 
 
