@@ -52,11 +52,11 @@ fi
 
 
 # Prints the slack report to the log and outputs to a json file for use in the next step.
-echo "$slack_message"
+echo "slack_message=$slack_message" >> $GITHUB_ENV
 echo "$slack_message" > slack_message.json
 
-if jq empty recent_failures.json > /dev/null 2>&1; then
-  echo "recent_failures.json is valid JSON."
+if jq empty $slack_message > /dev/null 2>&1; then
+  echo "$slack_message is valid JSON."
 else
-  echo "recent_failures.json is invalid JSON."
+  echo "ERROR - $slack_message is not valid JSON."
 fi
