@@ -47,4 +47,4 @@ else
 fi
 
 # Output the formatted_date var to GITHUB_ENV for use in the subsequent scripts
-echo "$formatted_date" >> $GITHUB_ENV 
+echo "formatted_date=\"$formatted_date\"" >> $GITHUB_ENV 
