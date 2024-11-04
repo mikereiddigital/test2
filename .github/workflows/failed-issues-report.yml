@@ -4,7 +4,7 @@ on:
     workflow_dispatch: 
     push:
         branches:
-            - issue/7902
+            - main
 
 permissions:
     actions: read
