@@ -4,7 +4,7 @@
 # Check if recent_failures.json exists, is not empty, and contains valid JSON. Else exit.
 if jq empty recent_failures.json > /dev/null 2>&1; then
     # This generates a Slack message in JSON format using jq
-    slack_message=$(jq -n --arg period "$PERIOD" --slurpfile failures recent_failures.json '
+    slack_message=$(jq -n --arg formatted_date "$formatted_date" --slurpfile failures recent_failures.json '
     {
         "blocks": (
         [
@@ -19,7 +19,7 @@ if jq empty recent_failures.json > /dev/null 2>&1; then
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "The following workflows have failed since \($period) days without subsequent success:"
+                "text": "The following workflows have failed since \($formatted_date) without subsequent success:"
             }
             },
             {

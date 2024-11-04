@@ -4,9 +4,10 @@
 # - Ignores failed actions that have had a subsequent successful action,
 
 # The GitHub API expects dates in ISO 8601 format for filtering parameters like created or updated.
-# We want the date & time as defined in the $REPORITNG_PERIOD variable.
-PERIOD=$(date -u --date="$REPORTING_PERIOD days ago" +"%Y-%m-%dT%H:%M:%SZ")
-echo "Getting all workflows that completed since $PERIOD"
+# We want the date & time as defined in the $REPORITNG_PERIOD variable. We use $formatted_date for readibility.
+period=$(date -u --date="$REPORTING_PERIOD days ago" +"%Y-%m-%dT%H:%M:%SZ")
+formatted_date=$(date -d "$PERIOD" +"%d-%m-%Y %H:%M:%S")
+echo "Getting all workflows that completed since $formatted_date"
 
 # The updated_at field provides the finished date so we check against that.
 # The created field is for all actions that have completed including those that have failed.
@@ -36,9 +37,6 @@ recent_failures=$(echo "$response" | jq -r '
   | map(select(.name and .url and .status and .created_at))
 ')
 
-# 
-formatted_date=$(date -d "$PERIOD" +"%d-%m-%Y %H:%M:%S")
-
 # This checks the contents of $recent_failures and if not empty it saves the variable to a file for use in the next step.
 if [[ -n "$recent_failures" ]]; then
   echo "Most recent failed GitHub Actions without subsequent success that finished since $formatted_date :"
@@ -47,3 +45,6 @@ if [[ -n "$recent_failures" ]]; then
 else
   echo "No workflow failures without subsequent successful completion that finished since $formatted_date ."
 fi
+
+# Output the formatted_date var to GITHUB_ENV for use in the subsequent scripts
+echo "$formatted_date" >> $GITHUB_ENV 
