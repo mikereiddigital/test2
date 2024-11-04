@@ -19,27 +19,29 @@ recent_failures=$(echo "$response" | jq -r '
   # Group by workflow name
   .workflow_runs | group_by(.name) | 
   map(
-    # Sort each group by created_at, descending (newest first)
+    # Sort each group by created_at in descending order (newest first)
     sort_by(.created_at) | reverse |
-    # Find the latest failure, only if no subsequent success exists
+    
+    # Check if there is a failure without any subsequent success
     if (map(select(.conclusion == "success")) | length) == 0 
-      or (first(.[] | select(.conclusion == "failure")) 
-      as $failure | .[0: (index($failure))] | 
-      map(select(.conclusion == "success")) | length) == 0 
+      or (first(.[] | select(.conclusion == "failure")) as $failure |
+          .[0: index($failure)] | map(select(.conclusion == "success")) | length) == 0
     then 
       # Output the latest failure in the group if no subsequent success
       first(.[] | select(.conclusion == "failure")) | 
       {name: .name, url: .html_url, status: .conclusion, created_at: .created_at}
     else empty end
-  ) | 
-  .[] | select(.status == "failure")
+  ) 
+  # Filter out any empty results and ensure only valid objects are output
+  | map(select(.name and .url and .status and .created_at))
 ')
+
 
 # This checks the contents of $recent_failures and if not empty it saves the variable to a file for use in the next step.
 formatted_date=$(date -d "$original_date" +"%d-%m-%Y %H:%M:%S")
 if [[ -n "$recent_failures" ]]; then
   echo "Most recent failed GitHub Actions without subsequent success that finished since $formatted_date :"
-  echo "$recent_failures" | jq -r '. | "\(.name): \(.created_at) - \(.url)"'
+  # echo "$recent_failures" | jq -r '. | "\(.name): \(.created_at) - \(.url)"'
   echo "$recent_failures" > recent_failures.json
 else
   echo "No workflow failures without subsequent successful completion that finished since $formatted_date ."
