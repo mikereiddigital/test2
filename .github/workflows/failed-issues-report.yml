@@ -16,6 +16,7 @@ env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     # SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOKS }}
     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
     REPORTING_PERIOD: "90" # This variable sets the number of days against which the report will be compiled.
 
 defaults:
@@ -50,6 +51,14 @@ jobs:
             ./scripts/failed-issues-report/create-slack-report.sh
 
         # Sends the json file to the MP Team via slack
+
+        - name: Send Report via Slack using actions
+          uses: slackapi/slack-github-action@37ebaef184d7626c5f204ab8d3baff4262dd30f0 # v1.27.0
+          with:
+            payload: |
+              slack_message.json
+
+
 
 #        - name: Send Report via Slack
 #          run: |

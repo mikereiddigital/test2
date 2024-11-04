@@ -3,7 +3,7 @@
 
 # Check if recent_failures.json exists, is not empty, and contains valid JSON. Else exit.
 if jq empty recent_failures.json > /dev/null 2>&1; then
-    # This generates a Slack message in JSON format using jq
+    # This generates the slack report of failed workflows as json.
     slack_message=$(jq -n --arg formatted_date "$formatted_date" --slurpfile failures recent_failures.json '
     {
         "blocks": (
@@ -50,4 +50,6 @@ else
     echo "No report json file presented"
 fi
 
+# Prints the slack report to the log and outputs to a json file for use in the next step.
 echo "$slack_message"
+echo "$slack_message" > slack_message.json
