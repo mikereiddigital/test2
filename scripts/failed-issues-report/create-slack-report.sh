@@ -12,14 +12,14 @@ if jq empty recent_failures.json > /dev/null 2>&1; then
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": ":no_entry: *Recent Failed GitHub Actions in \($repository)*"
+                "text": ":no_entry: *Attention - Failed GitHub Actions in \($repository)*"
             }
             },
             {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "The following workflows have failed since \($formatted_date) without any subsequent success:"
+                "text": "The following workflows have failed since \($formatted_date) and require attention:"
             }
             },
             {
