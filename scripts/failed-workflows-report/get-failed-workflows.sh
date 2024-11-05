@@ -15,6 +15,9 @@ GITHUB_API_URL="https://api.github.com/repos/$GITHUB_REPO/actions/runs?updated_a
 response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$GITHUB_API_URL")
 
 # Due to an issue with how the github api uses the updated_at filter, this is added to ensure that the json doesn't included workflows completed before $period.
+response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$GITHUB_API_URL")
+
+# Filter the workflows by updated_at date
 filtered_workflows=$(echo "$response" | jq --arg period "$PERIOD" '.workflow_runs | map(select(.updated_at >= $period))')
 
 # This section iterates through each of the workflows returned above, sorts in asc date order and looks for those that have the conclusion status of failure.
