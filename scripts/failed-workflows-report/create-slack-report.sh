@@ -1,11 +1,11 @@
 # This takes the output of the previous step and generates a json file containing a markdown-formatted list ready to be sent to slack
 # If no file is found from the previous output, it will construct a "no failures found" message.
 
-# Check if recent_failures.json exists, is not empty (so more than just []) and contains valid JSON. Else send the no failures found message.
 
 echo $formatted_date
 
-if [ "$(jq '. | length' recent_failures.json)" -gt 0 ]; then
+# Check if recent_failures.json exists, is not empty (so more than just []) and contains valid JSON. Else send the no failures found message.
+if [ -f recent_failures.json ] && [ "$(jq '. | length' recent_failures.json)" -gt 0 ]; then
     # This generates the slack report of failed workflows as json.
     slack_message=$(jq -n --arg formatted_date "$formatted_date" --arg repository "$GITHUB_REPO" --slurpfile failures recent_failures.json '
     {
