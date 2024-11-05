@@ -37,6 +37,7 @@ recent_failures=$(echo "$response" | jq -r '
   | map(select(.name and .url and .status and .created_at))
 ')
 
+# Added this to control whether the subsequent steps are run.
 sendreport="true"
 
 # This checks the contents of $recent_failures and if not empty it saves the variable to a file for use in the next step.
@@ -48,11 +49,13 @@ elif [[ -n "$recent_failures" ]]; then
   cat recent_failures.json
 else
   echo "ERROR generating failed workflows list ."
+  # This ensures that the subsequent steps are not run.
   sendreport="false"
   echo "sendreport=$sendreport" >> $GITHUB_ENV 
   exit 1
 fi
 
 if [ "$sendreport" == "true" ]; then
+  echo "sendreport=$sendreport" >> $GITHUB_ENV
   echo "formatted_date=$formatted_date" >> $GITHUB_ENV
 fi
