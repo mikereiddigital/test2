@@ -4,7 +4,7 @@
 # - Ignores failed actions that have had a subsequent successful action,
 
 # The GitHub API expects dates in ISO 8601 format for filtering parameters like created or updated.
-# We want the date & time as defined in the $REPORITNG_PERIOD variable. We use $formatted_date for readibility.
+# We want the period as defined in the $REPORITNG_PERIOD variable. We use $formatted_date for readibility.
 period=$(date -u --date="$REPORTING_PERIOD hours ago" +"%Y-%m-%dT%H:%M:%SZ")
 formatted_date=$(date -d "$period" +"%d-%m-%Y %H:%M:%S")
 echo "Getting all workflows that completed since $formatted_date"
@@ -12,11 +12,13 @@ echo "Getting all workflows that completed since $formatted_date"
 # The updated_at field provides the finished date so we check against that.
 # The created field is for all actions that have completed including those that have failed.
 GITHUB_API_URL="https://api.github.com/repos/$GITHUB_REPO/actions/runs?updated_at=>=$period&status=completed"
-
 response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$GITHUB_API_URL")
 
+# Due to an issue with how the github api uses the updated_at filter, this is added to ensure that the json doesn't included workflows completed before $period.
+filtered_workflows=$(echo "$response" | jq --arg period "$PERIOD" '.workflow_runs | map(select(.updated_at >= $period))')
+
 # This section iterates through each of the workflows returned above, sorts in asc date order and looks for those that have the conclusion status of failure.
-recent_failures=$(echo "$response" | jq -r '
+recent_failures=$(echo "$filtered_workflows" | jq -r '
   # Group by workflow name
   .workflow_runs | group_by(.name) | 
   map(
