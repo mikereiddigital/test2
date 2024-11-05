@@ -13,7 +13,7 @@ env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-    REPORTING_PERIOD: "1" # This variable sets the number of days against which the report will be compiled.
+    REPORTING_PERIOD: "24" # This variable sets the number of hours against which the report will be compiled.
 
 defaults:
   run:
@@ -30,7 +30,7 @@ jobs:
           uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
         # Creates a json file listing the latest action for a workflow that:
-        #  - failed in the previous number of days as set by $REPORTING_PERIOD, and
+        #  - failed in the previous number of hours as set by $REPORTING_PERIOD, and
         #  - does not have a successful run.
         - name: Get Failed Workflows   
           id: get-failed-workflows

@@ -1,11 +1,11 @@
 # This bash script get the URL for each failed workflow action in Modernisation Platform repo as follows:
-# - Gets all completed workflows that completed in the past 24 hours
+# - Gets all completed workflows that completed as defined by the $REPORTING_PERIOD variable.
 # - Of those, finds the latest failed action only. Ignores any previously failed actions,
 # - Ignores failed actions that have had a subsequent successful action,
 
 # The GitHub API expects dates in ISO 8601 format for filtering parameters like created or updated.
 # We want the date & time as defined in the $REPORITNG_PERIOD variable. We use $formatted_date for readibility.
-period=$(date -u --date="$REPORTING_PERIOD days ago" +"%Y-%m-%dT%H:%M:%SZ")
+period=$(date -u --date="$REPORTING_PERIOD hours ago" +"%Y-%m-%dT%H:%M:%SZ")
 formatted_date=$(date -d "$period" +"%d-%m-%Y %H:%M:%S")
 echo "Getting all workflows that completed since $formatted_date"
 
