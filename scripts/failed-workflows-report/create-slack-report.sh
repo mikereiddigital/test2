@@ -80,5 +80,8 @@ if jq empty slack_message.json > /dev/null 2>&1; then
   echo "slack_message is valid JSON."
 else
   echo "ERROR - slack_message is not valid JSON."
+  # This ensures that in the event of this error the final stage does not run.
+  sendreport="false"
+  echo "sendreport=$sendreport" >> $GITHUB_OUTPUT
   exit 1
 fi
