@@ -22,13 +22,5 @@ jobs:
  
     steps:
 
-      - name: Authenticate with GitHub CLI
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
-
-      - name: Create Issue
-        run: |
-          gh project list --owner mikereiddigital
-          #gh issue create \
-                #--title "Another test issue" \
-                #--project "mikereiddigital/2" \
-                #--body "Test Body"
+      - name: output some text
+        run: echo "hello world"
