@@ -13,7 +13,7 @@ env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-    REPORTING_PERIOD: "700" # This variable sets the number of hours against which the report will be compiled.
+    REPORTING_PERIOD: "24" # This variable sets the number of hours against which the report will be compiled.
 
 defaults:
   run:
@@ -39,11 +39,6 @@ jobs:
             pwd
             chmod +x scripts/failed-workflows-report/get-failed-workflows.sh
             ./scripts/failed-workflows-report/get-failed-workflows.sh
-
-        - name: Debug sendreport value
-          run: | 
-            echo "sendreport is ${{ steps.get-failed-workflows.outputs.sendreport }}"
-            echo "formatted_date is ${{ steps.get-failed-workflows.outputs.formatted_date }}"
 
         # Creates a JSON file with the markdown-formatted report for slack
         - name: Create the Slack Report
