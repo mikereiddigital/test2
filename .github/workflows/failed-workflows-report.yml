@@ -48,8 +48,9 @@ jobs:
         # Creates a JSON file with the markdown-formatted report for slack
         - name: Create the Slack Report
           if: ${{ steps.get-failed-workflows.outputs.sendreport == 'true' }}
+          env:
+            formatted_date: "${{ steps.get-failed-workflows.outputs.formatted_date }}"
           run: |
-            formatted_date="${{ steps.get-failed-workflows.outputs.formatted_date }}"
             chmod +x scripts/failed-workflows-report/create-slack-report.sh
             ./scripts/failed-workflows-report/create-slack-report.sh
 
