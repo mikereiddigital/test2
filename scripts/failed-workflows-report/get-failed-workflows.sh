@@ -41,7 +41,6 @@ recent_failures=$(echo "$filtered_workflows" | jq -r '
 
 # Added this to control whether the subsequent steps are run.
 sendreport="true"
-echo "::set-output name=sendreport::true"
 
 # This checks the contents of $recent_failures and if not empty it saves the variable to a file for use in the next step.
 if [[ "$recent_failures" == "[]" ]]; then
@@ -54,11 +53,12 @@ else
   echo "ERROR generating failed workflows list ."
   # This ensures that the subsequent steps are not run.
   sendreport="false"
-  echo "::set-output name=sendreport::false"
   exit 1
 fi
 
+echo "sendreport=$sendreport" >> $GITHUB_OUTPUT
+
 # Sends the formatted_date variable to the output to be used in the slack message.
 if [ "$sendreport" == "true" ]; then
-  echo "::set-output name=formatted_date::$formatted_date"
+  echo "formatted_date=$formatted_date" >> $GITHUB_OUTPUT
 fi
