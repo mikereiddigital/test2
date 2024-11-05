@@ -39,6 +39,7 @@ recent_failures=$(echo "$response" | jq -r '
 
 # Added this to control whether the subsequent steps are run.
 sendreport="true"
+echo "::set-output name=sendreport::true"
 
 # This checks the contents of $recent_failures and if not empty it saves the variable to a file for use in the next step.
 if [[ "$recent_failures" == "[]" ]]; then
@@ -51,7 +52,8 @@ else
   echo "ERROR generating failed workflows list ."
   # This ensures that the subsequent steps are not run.
   sendreport="false"
-  echo "sendreport=$sendreport" >> $GITHUB_ENV 
+  echo "sendreport=$sendreport" >> $GITHUB_ENV
+  echo "::set-output name=sendreport::false"
   exit 1
 fi
 
