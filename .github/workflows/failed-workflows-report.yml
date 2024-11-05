@@ -40,6 +40,10 @@ jobs:
             chmod +x scripts/failed-workflows-report/get-failed-workflows.sh
             ./scripts/failed-workflows-report/get-failed-workflows.sh
 
+        - name: Debug sendreport value
+          run: echo "sendreport is ${{ steps.get-failed-workflows.outputs.sendreport }}"
+          
+
         # Creates a JSON file with the markdown-formatted report for slack
         - name: Create the Slack Report
           if: ${{ steps.get-failed-workflows.outputs.sendreport == 'true' }}
