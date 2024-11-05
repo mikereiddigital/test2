@@ -52,14 +52,11 @@ else
   echo "ERROR generating failed workflows list ."
   # This ensures that the subsequent steps are not run.
   sendreport="false"
-  echo "sendreport=$sendreport" >> $GITHUB_ENV
   echo "::set-output name=sendreport::false"
   exit 1
 fi
 
+# Sends the formatted_date variable to the output to be used in the slack message.
 if [ "$sendreport" == "true" ]; then
-  echo "sendreport=$sendreport" >> $GITHUB_ENV
-  echo "$sendreport"
-  echo "formatted_date=$formatted_date" >> $GITHUB_ENV
-  echo "$formatted_date"
+  echo "::set-output name=formatted_date::$formatted_date"
 fi
