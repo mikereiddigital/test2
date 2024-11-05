@@ -1,4 +1,4 @@
-name: Test GH
+name: Test GH 3
 
 on:
   workflow_dispatch:
