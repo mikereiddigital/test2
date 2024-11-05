@@ -11,12 +11,12 @@ echo "Getting all workflows that completed since $formatted_date"
 
 # The updated_at field provides the finished date so we check against that.
 # The created field is for all actions that have completed including those that have failed.
-GITHUB_API_URL="https://api.github.com/repos/$GITHUB_REPO/actions/runs?updated_at=>=$period&status=completed"
+GITHUB_API_URL="https://api.github.com/repos/$GITHUB_REPO/actions/runs?created=>=$period&status=completed"
 response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$GITHUB_API_URL")
 echo $response
 
 # Due to an issue with how the github api uses the updated_at filter, this is added to ensure that the json doesn't included workflows completed before $period.
-filtered_workflows=$(echo "$response" | jq --arg period "$PERIOD" '.workflow_runs | map(select(.updated_at >= $period))')
+#filtered_workflows=$(echo "$response" | jq --arg period "$PERIOD" '.workflow_runs | map(select(.updated_at >= $period))')
 
 # This section iterates through each of the workflows returned above, sorts in asc date order and looks for those that have the conclusion status of failure.
 recent_failures=$(echo "$filtered_workflows" | jq -r '
