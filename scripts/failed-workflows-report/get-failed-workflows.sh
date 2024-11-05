@@ -37,6 +37,8 @@ recent_failures=$(echo "$response" | jq -r '
   | map(select(.name and .url and .status and .created_at))
 ')
 
+sendreport="true"
+
 # This checks the contents of $recent_failures and if not empty it saves the variable to a file for use in the next step.
 if [[ "$recent_failures" == "[]" ]]; then
   echo "No workflow failures without subsequent successful completion that finished since $formatted_date ." 
@@ -49,4 +51,8 @@ else
   sendreport="false"
   echo "sendreport=$sendreport" >> $GITHUB_ENV 
   exit 1
+fi
+
+if [ "$sendreport" == "true" ]; then
+  echo "formatted_date=$formatted_date" >> $GITHUB_ENV
 fi

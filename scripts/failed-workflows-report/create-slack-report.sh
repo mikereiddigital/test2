@@ -2,6 +2,9 @@
 # If no file is found from the previous output, it will construct a "no failures found" message.
 
 # Check if recent_failures.json exists, is not empty (so more than just []) and contains valid JSON. Else send the no failures found message.
+
+formatted_date="${{ env.formatted_date }}"
+
 if [ "$(jq '. | length' recent_failures.json)" -gt 0 ]; then
     # This generates the slack report of failed workflows as json.
     slack_message=$(jq -n --arg formatted_date "$formatted_date" --arg repository "$GITHUB_REPO" --slurpfile failures recent_failures.json '

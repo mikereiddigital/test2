@@ -42,14 +42,14 @@ jobs:
 
         # Creates a JSON file with the markdown-formatted report for slack
         - name: Create the Slack Report
-          if: ${{ steps.get-failed-workflows.outputs.sendreport != 'false' }}
+          if: ${{ steps.get-failed-workflows.outputs.sendreport == 'true' }}
           run: |
             chmod +x scripts/failed-workflows-report/create-slack-report.sh
             ./scripts/failed-workflows-report/create-slack-report.sh
 
         # Sends the json file to the MP Team via the slack webhook
         - name: Send Report via Slack
-          if: ${{ steps.get-failed-workflows.outputs.sendreport != 'false' }}
+          if: ${{ steps.get-failed-workflows.outputs.sendreport == 'true' }}
           run: |
             chmod +x scripts/failed-workflows-report/send-report-via-slack.sh
             ./scripts/failed-workflows-report/send-report-via-slack.sh $SLACK_WEBHOOK_URL slack_message.json
