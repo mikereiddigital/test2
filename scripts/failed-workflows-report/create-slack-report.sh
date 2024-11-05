@@ -3,7 +3,7 @@
 
 # Check if recent_failures.json exists, is not empty (so more than just []) and contains valid JSON. Else send the no failures found message.
 
-formatted_date="${{ env.formatted_date }}"
+echo $formatted_date
 
 if [ "$(jq '. | length' recent_failures.json)" -gt 0 ]; then
     # This generates the slack report of failed workflows as json.

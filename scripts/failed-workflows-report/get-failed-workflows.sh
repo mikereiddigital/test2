@@ -57,7 +57,7 @@ fi
 
 if [ "$sendreport" == "true" ]; then
   echo "sendreport=$sendreport" >> $GITHUB_ENV
-  echo "${{ env.sendreport }}"
+  echo "$sendreport"
   echo "formatted_date=$formatted_date" >> $GITHUB_ENV
-  echo "${{ env.formatted_date }}"
+  echo "$formatted_date"
 fi
