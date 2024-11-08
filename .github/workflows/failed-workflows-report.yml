@@ -2,8 +2,6 @@ name: 'Generates Report of all Failed Workflows'
 
 on:
     workflow_dispatch:
-    schedule:
-      - cron: '45 8 * * 1-5'
 
 permissions:
     actions: read
