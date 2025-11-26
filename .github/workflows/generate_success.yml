@@ -1,0 +1,24 @@
+name: Generate Success
+
+on:
+  workflow_dispatch:
+
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  generate_error:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+ 
+    steps:
+
+      - name: generate_success
+        run: |
+          echo "This is the success"
+        
